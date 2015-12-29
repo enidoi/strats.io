@@ -1,5 +1,14 @@
 var React = require('react');
 var ReactDom = require('react-dom');
+var ReactRouter = require('react-router');
+var Router  = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var Navigation = ReactRouter.Navigation;
+var createBrowserHistory = require('history/lib/createBrowserHistory');
+
+
+
+// Herodata
 var owhd = require('./herodata.js');
 
 
@@ -10,13 +19,13 @@ var App = React.createClass({
     return (
       <div className="catch-of-the-day">
         <div className="menu">
-          <Header tagline="Counter your Enemies"/>
+          <Header tagline="Counter your Enemies" />
         </div>
-        <OpponentPicker/>
+        <OpponentPicker />
       </div>
     )
   }
-})
+});
 
 
 
@@ -32,22 +41,60 @@ var Header = React.createClass({
       </header>
     )
   }
-})
+});
 
 /*
   OpponentPicker
   This will let us pick the Opponent team
    <OpponentPicker/>
 */
+var lis = [];
+
+for (var i = 0; i < owhd.length; i++) {
+    lis.push(<li key={owhd[i].name} className={owhd[i].name + " " + owhd[i].type}>
+      <p>{owhd[i].name}</p>
+      <img src={owhd[i].largeImg}></img>
+      </li>);
+}
+
+
 var OpponentPicker = React.createClass({
+  render : function() {
+
+    return (
+      <div>
+        <ul className="PlayerList">
+        {lis}
+        </ul>
+      </div>
+    )
+  }
+});
+
+/*
+  NotFound
+  This will let us pick the Opponent team
+   <Not Found/>
+*/
+var NotFound = React.createClass({
 
   render : function() {
     return (
-      <p>OpponentPicker</p>
+      <h1>Not Found</h1>
     )
   }
-})
+});
+
+/*
+Routes
+*/
+
+var routes = (
+  <Router history={createBrowserHistory()}>
+    <Route path="/" component={App} />
+    <Route path="*" component={NotFound} />
+  </Router>
+)
 
 
-
-ReactDom.render(<App/>, document.querySelector('#main'));
+ReactDom.render(routes, document.querySelector('#main'));
