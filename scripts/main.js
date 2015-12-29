@@ -20,8 +20,8 @@ var App = React.createClass({
       <div className="catch-of-the-day">
         <div className="menu">
           <Header tagline="Counter your Enemies" />
+          <OpponentPicker />
         </div>
-        <OpponentPicker />
       </div>
     )
   }
