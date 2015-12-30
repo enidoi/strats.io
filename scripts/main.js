@@ -5,7 +5,7 @@ var Router  = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Navigation = ReactRouter.Navigation;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
-
+var History = ReactRouter.History;
 
 
 // Herodata
@@ -15,19 +15,43 @@ var owhd = require('./herodata.js');
 
 
 var App = React.createClass({
+  getInitialState : function(){
+
+    return {
+      heroes : require('./herodata')
+    }
+  },
+  renderHero : function(key){
+    return <Hero key={key} index={key} details={this.state.heroes[key]} />
+  },
+
+
   render : function() {
     return (
       <div className="catch-of-the-day">
         <div className="menu">
           <Header tagline="Counter your Enemies" />
-          <OpponentPicker />
+          <ul className="list-of-fishes">
+            {Object.keys(this.state.heroes).map(this.renderHero)}
+          </ul>
         </div>
       </div>
     )
   }
 });
 
+var Hero = React.createClass({
 
+  render: function() {
+    var details = this.props.details;
+    return (
+        <li className={details.name + " " + details.type}>
+          <p>{details.name}</p>
+          <img src={details.largeImg} />
+        </li>
+    )
+  }
+});
 
 
 
@@ -43,33 +67,9 @@ var Header = React.createClass({
   }
 });
 
-/*
-  OpponentPicker
-  This will let us pick the Opponent team
-   <OpponentPicker/>
-*/
-var lis = [];
-
-for (var i = 0; i < owhd.length; i++) {
-    lis.push(<li key={owhd[i].name} className={owhd[i].name + " " + owhd[i].type}>
-      <p>{owhd[i].name}</p>
-      <img src={owhd[i].largeImg}></img>
-      </li>);
-}
 
 
-var OpponentPicker = React.createClass({
-  render : function() {
 
-    return (
-      <div>
-        <ul className="PlayerList">
-        {lis}
-        </ul>
-      </div>
-    )
-  }
-});
 
 /*
   NotFound
