@@ -31,7 +31,7 @@ var App = React.createClass({
       <div className="catch-of-the-day">
         <div className="menu">
           <Header tagline="Counter your Enemies" />
-          <ul className="list-of-fishes">
+          <ul className="list-of-heroes">
             {Object.keys(this.state.heroes).map(this.renderHero)}
           </ul>
         </div>
@@ -45,7 +45,7 @@ var Hero = React.createClass({
   render: function() {
     var details = this.props.details;
     return (
-        <li className={details.name + " " + details.type}>
+        <li className={details.name + " " + details.type + " " + "heroes"}>
           <p>{details.name}</p>
           <img src={details.largeImg} />
         </li>
