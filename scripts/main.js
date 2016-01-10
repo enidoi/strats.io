@@ -8,8 +8,6 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 
 
-// Herodata
-var owhd = require('./herodata.js');
 
 
 
@@ -21,7 +19,15 @@ var App = React.createClass({
       heroes : require('./herodata')
     }
   },
+  handleClick: function(index) {
+    if (opponents.length <6 ) {
+      opponents.push(index);
+    } else {
+      alert('6 chosen');
+    }
+  },
   renderHero : function(key){
+
     return <Hero key={key} index={key} details={this.state.heroes[key]} />
   },
 
@@ -44,12 +50,23 @@ var Hero = React.createClass({
 
   render: function() {
     var details = this.props.details;
+    var opponents = [];
+
+
+
     return (
-        <li className={details.name + " " + details.type + " " + "heroes"}>
+        <li className={details.name + " " + details.type + " " + "heroes"}  onClick={this.handleThatEvent}>
           <p>{details.name}</p>
           <img src={details.largeImg} />
         </li>
     )
+  },
+  handleClick: function(index) {
+    if (opponents.length <6 ) {
+      opponents.push(index);
+    } else {
+      alert('6 chosen');
+    }
   }
 });
 
