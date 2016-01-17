@@ -30,7 +30,7 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      selectedOppponents : {}
+      selectedOppponents : []
     }
   },
   opponentState : function(key) {
