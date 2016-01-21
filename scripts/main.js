@@ -30,11 +30,11 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      selectedOppponents : []
+      selectedOppponents : {}
     }
   },
   opponentState : function(key) {
-    this.state.selectedOppponents[key] = this.state.heroes[key];
+    this.state.selectedOppponents[key] = this.state.selectedOppponents[key] + 1 || 1;
     this.setState({ selectedOppponents : this.state.selectedOppponents });
   },
   renderHero : function(key){
