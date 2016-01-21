@@ -8,9 +8,9 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 
 /*
-Initial State - Heroes with data, selectedOppponents empty object.
+Initial State - Heroes with data, selectedOpponents empty object.
 Methods:
-opponentState is the click handler in the hero component that loads my empty selectedOppponents object with here data
+opponentState is the click handler in the hero component that loads my empty selectedOpponents object with hero data
 renderHero renders the hero elements indivdually into react and list items in the HTML
 renderOpponents renders the selected opponetns above the hero select screen.
 
@@ -18,10 +18,12 @@ renderOpponents renders the selected opponetns above the hero select screen.
 
 **** CODE SNIPPET FROM Opponent component comments ****
 opponentState : function(key) {
-  this.state.selectedOppponents[key] = this.state.selectedOppponents[key];
-  this.setState({ selectedOppponents : this.state.selectedOppponents });
+  this.state.selectedOpponents[key] = this.state.selectedOpponents[key];
+  this.setState({ selectedOpponents : this.state.selectedOpponents });
 
-
+  renderOpponents : function(key){
+    return <Opponents heroes={this.state.heroes} selectedOpponents={this.state.selectedOpponents} />
+  },
 
 
 */
@@ -30,19 +32,20 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      selectedOppponents : []
+      selectedOpponents : {}
     }
   },
   opponentState : function(key) {
-    this.state.selectedOppponents[key] = this.state.heroes[key];
-    this.setState({ selectedOppponents : this.state.selectedOppponents });
+    this.state.selectedOpponents[key] = this.state.selectedOpponents[key] + 1 || 1;
+    this.setState({ selectedOpponents : this.state.selectedOpponents });
   },
   renderHero : function(key){
     return <Hero key={key} index={key} details={this.state.heroes[key]} opponentState={this.opponentState} />
   },
+
   renderOpponents : function(key){
-    return <Opponents key={key} index={key} details={this.state.selectedOppponents[key]} />
-  },
+  return <Opponents key={key} index={key} details={this.state.selectedOppponents[key]} />
+},
 
 render : function() {
     return (
@@ -50,12 +53,14 @@ render : function() {
           <Header tagline="Counter your Enemies" />
             <div className="selected-opponents">
               <ul className="list-of-opponents">
-                {Object.keys(this.state.selectedOppponents).map(this.renderOpponents)}
+                {Object.keys(this.state.selectedOpponents).map(this.renderOpponents)}
               </ul>
             </div>
-              <ul className="list-of-heroes">
+            <div className="list-of-heroes">
+              <ul className="grid-of-heroes">
                 {Object.keys(this.state.heroes).map(this.renderHero)}
               </ul>
+            </div>
       </div>
     )
   }
@@ -79,7 +84,7 @@ var Hero = React.createClass({
 
     return (
         <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.opponents}>
-          <p >{details.name}</p>
+          <p >{details.name} {this.props.index}</p>
           <img src={details.largeImg} />
         </li>
     )
@@ -98,8 +103,13 @@ var Opponents = React.createClass({
 
   render: function() {
     var details = this.props.details;
-
+    var opp = Object.keys(this.props.selectedOpponents);
+    var total = opp.reduce((prevTotal, key)=> {
+      var opponent = this.props.selectedOpponents[key];
+      var count = this.props.selectedOpponents[key];
+    })
     return (
+
       <li className={details.name + " " + details.type + " " + "opponents"}>
         <p >{details.name}</p>
         <img src={details.largeImg} />
@@ -115,7 +125,7 @@ var Header = React.createClass({
   render : function() {
     return (
       <header className="top">
-        <h1>Choose Opponents</h1>
+        <h1>Choose Your Opponents</h1>
         <h3 className="tagline"><span>{this.props.tagline}</span></h3>
       </header>
     )
