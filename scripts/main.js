@@ -8,9 +8,9 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 
 /*
-Initial State - Heroes with data, selectedOpponents empty object.
+Initial State - Heroes with data, selectedOppponents empty object.
 Methods:
-opponentState is the click handler in the hero component that loads my empty selectedOpponents object with hero data
+opponentState is the click handler in the hero component that loads my empty selectedOppponents object with here data
 renderHero renders the hero elements indivdually into react and list items in the HTML
 renderOpponents renders the selected opponetns above the hero select screen.
 
@@ -18,12 +18,10 @@ renderOpponents renders the selected opponetns above the hero select screen.
 
 **** CODE SNIPPET FROM Opponent component comments ****
 opponentState : function(key) {
-  this.state.selectedOpponents[key] = this.state.selectedOpponents[key];
-  this.setState({ selectedOpponents : this.state.selectedOpponents });
+  this.state.selectedOppponents[key] = this.state.selectedOppponents[key];
+  this.setState({ selectedOppponents : this.state.selectedOppponents });
 
-  renderOpponents : function(key){
-    return <Opponents heroes={this.state.heroes} selectedOpponents={this.state.selectedOpponents} />
-  },
+
 
 
 */
@@ -32,35 +30,30 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      selectedOpponents : {}
+      order: {}
     }
   },
   opponentState : function(key) {
-    this.state.selectedOpponents[key] = this.state.selectedOpponents[key] + 1 || 1;
-    this.setState({ selectedOpponents : this.state.selectedOpponents });
+    this.state.order[key] = this.state.order[key] + 1 || 1;
+    this.setState({ order : this.state.order });
   },
   renderHero : function(key){
     return <Hero key={key} index={key} details={this.state.heroes[key]} opponentState={this.opponentState} />
   },
-
   renderOpponents : function(key){
-  return <Opponents key={key} index={key} details={this.state.selectedOppponents[key]} />
-},
+    return <Opponents key={key} index={key} details={this.state.selectedOppponents[key]} />
+  },
 
 render : function() {
     return (
       <div className="app">
           <Header tagline="Counter your Enemies" />
             <div className="selected-opponents">
-              <ul className="list-of-opponents">
-                {Object.keys(this.state.selectedOpponents).map(this.renderOpponents)}
-              </ul>
+              <Order heroes={this.state.heroes} order={this.state.order} />
             </div>
-            <div className="list-of-heroes">
-              <ul className="grid-of-heroes">
+              <ul className="list-of-heroes">
                 {Object.keys(this.state.heroes).map(this.renderHero)}
               </ul>
-            </div>
       </div>
     )
   }
@@ -71,7 +64,7 @@ Hero componentloads the hero date into line items and an image for each hero. th
 */
 
 var Hero = React.createClass({
-  opponents : function() {
+  onButtonClick : function() {
     console.log("going to push opponent key ", this.props.index);
     var key = this.props.index;
     this.props.opponentState(key);
@@ -83,8 +76,8 @@ var Hero = React.createClass({
 
 
     return (
-        <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.opponents}>
-          <p >{details.name} {this.props.index}</p>
+        <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.onButtonClick}>
+          <p >{details.name}</p>
           <img src={details.largeImg} />
         </li>
     )
@@ -103,13 +96,8 @@ var Opponents = React.createClass({
 
   render: function() {
     var details = this.props.details;
-    var opp = Object.keys(this.props.selectedOpponents);
-    var total = opp.reduce((prevTotal, key)=> {
-      var opponent = this.props.selectedOpponents[key];
-      var count = this.props.selectedOpponents[key];
-    })
-    return (
 
+    return (
       <li className={details.name + " " + details.type + " " + "opponents"}>
         <p >{details.name}</p>
         <img src={details.largeImg} />
@@ -119,13 +107,46 @@ var Opponents = React.createClass({
 });
 
 
+var Order = React.createClass({
+  renderOrder : function(key) {
+    var hero = this.props.heroes[key];
+    var count = this.props.order[key];
+
+    if(!hero) {
+      return <li key={key}> No one to play against</li>
+    }
+
+    return (
+    <li>
+        {count} x
+        {hero.name}
+        <span className="image"><img src={hero.largeImg} /></span>
+    </li>)
+  },
+
+  render: function() {
+      var orderIds = Object.keys(this.props.order);
+
+    return (
+      <div className="order-wrap">
+        <h2 className="order-title">Your Order</h2>
+        <ul className="order">
+          {orderIds.map(this.renderOrder)}
+          <li className="order">
+          </li>
+        </ul>
+      </div>
+    )
+  }
+})
+
 
 var Header = React.createClass({
 
   render : function() {
     return (
       <header className="top">
-        <h1>Choose Your Opponents</h1>
+        <h1>Choose Opponents</h1>
         <h3 className="tagline"><span>{this.props.tagline}</span></h3>
       </header>
     )
