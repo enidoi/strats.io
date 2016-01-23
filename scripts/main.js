@@ -7,6 +7,15 @@ var Navigation = ReactRouter.Navigation;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 
+//firebase
+// var Rebase = require('re-base');
+// var base = Rebase.createClass('https://glowing-fire-4684.firebaseio.com/');
+
+
+
+
+
+
 /*
 Initial State - Heroes with data, selectedOppponents empty object.
 Methods:
@@ -33,15 +42,16 @@ var App = React.createClass({
       order: {}
     }
   },
+  // componentDidMount : function() {
+  //   console.log("The Component Did Mount");
+  //   base.syncState();
+  // },
   opponentState : function(key) {
     this.state.order[key] = this.state.order[key] + 1 || 1;
     this.setState({ order : this.state.order });
   },
   renderHero : function(key){
     return <Hero key={key} index={key} details={this.state.heroes[key]} opponentState={this.opponentState} />
-  },
-  renderOpponents : function(key){
-    return <Opponents key={key} index={key} details={this.state.selectedOppponents[key]} />
   },
 
 render : function() {
@@ -85,43 +95,26 @@ var Hero = React.createClass({
 });
 
 
-/*
-Opponent component i am able to load a copy of the hero but for the selected opponents.
-i believe this is a better way to do this as i already see the limiting factor of a couple of things:
-1. i repeated the hero compnonet and just changed the characters
-2. i am able to pass the key value so i should have been able to just use the key value to load parts of hero data i needed
-3. currently this will not allow for multiple hero selections where the key value did.
-*/
-var Opponents = React.createClass({
-
-  render: function() {
-    var details = this.props.details;
-
-    return (
-      <li className={details.name + " " + details.type + " " + "opponents"}>
-        <p >{details.name}</p>
-        <img src={details.largeImg} />
-      </li>
-    )
-  }
-});
-
 
 var Order = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
     var count = this.props.order[key];
 
+    console.log("there are " + Object.keys(this.props.order) +" characters chosen");
+
     if(!hero) {
       return <li key={key}> No one to play against</li>
     }
 
+    if (Object.keys(this.props.order).length  < 6){
     return (
-    <li>
-        {count} x
-        {hero.name}
-        <span className="image"><img src={hero.largeImg} /></span>
-    </li>)
+        <li key={key}>
+            {count} x
+            {hero.name}
+            <span className="image"><img src={hero.largeImg} /></span>
+        </li>
+    )}
   },
 
   render: function() {
@@ -132,8 +125,6 @@ var Order = React.createClass({
         <h2 className="order-title">Your Order</h2>
         <ul className="order">
           {orderIds.map(this.renderOrder)}
-          <li className="order">
-          </li>
         </ul>
       </div>
     )
