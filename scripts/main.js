@@ -75,7 +75,6 @@ Hero componentloads the hero date into line items and an image for each hero. th
 
 var Hero = React.createClass({
   onButtonClick : function() {
-    console.log("going to push opponent key ", this.props.index);
     var key = this.props.index;
     this.props.opponentState(key);
   },
@@ -101,7 +100,8 @@ var Order = React.createClass({
     var hero = this.props.heroes[key];
     var count = this.props.order[key];
 
-    console.log("there are " + Object.keys(this.props.order) +" characters chosen");
+
+
 
     if(!hero) {
       return <li key={key}> No one to play against</li>
