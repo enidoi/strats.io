@@ -39,19 +39,22 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      order: {}
+      order: {},
+      selectedHeros: []
     }
   },
   // componentDidMount : function() {
   //   console.log("The Component Did Mount");
   //   base.syncState();
   // },
-  opponentState : function(key) {
+  opponentState : function(key) 
+  {
+    this.state.selectedHeros.push(key)
     this.state.order[key] = this.state.order[key] + 1 || 1;
     this.setState({ order : this.state.order });
   },
   renderHero : function(key){
-    return <Hero key={key} index={key} details={this.state.heroes[key]} opponentState={this.opponentState} />
+    return <Hero key={key} index={key} selectedHeros={this.state.selectedHeros} details={this.state.heroes[key]} opponentState={this.opponentState} />
   },
 
 render : function() {
@@ -59,7 +62,7 @@ render : function() {
       <div className="app">
           <Header tagline="Counter your Enemies" />
             <div className="selected-opponents">
-              <Order heroes={this.state.heroes} order={this.state.order} />
+              <Order selectedHeros={this.state.selectedHeros} heroes={this.state.heroes} order={this.state.order} />
             </div>
               <ul className="list-of-heroes">
                 {Object.keys(this.state.heroes).map(this.renderHero)}
@@ -74,9 +77,13 @@ Hero componentloads the hero date into line items and an image for each hero. th
 */
 
 var Hero = React.createClass({
-  onButtonClick : function() {
-    var key = this.props.index;
-    this.props.opponentState(key);
+  onButtonClick : function() 
+  {
+  	if(this.props.selectedHeros.length < 6)
+  	{
+    	var key = this.props.index;
+    	this.props.opponentState(key);
+    }
   },
 
   render: function() {
@@ -99,22 +106,31 @@ var Order = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
     var count = this.props.order[key];
+    var i:int=0
 
 
-
-
-    if(!hero) {
+    if(!hero) 
+    {
       return <li key={key}> No one to play against</li>
     }
+    else
+    {
+    	for(i=0;i<this.props.selectedHeros.length;i++)
+    	{
+    		console.log(this.props.heroes[this.props.selectedHeros[i]].name)
+    	}
+    }
 
-    if (Object.keys(this.props.order).length  < 6){
+    //if (Object.keys(this.props.order).length  < 6)
+    //{
     return (
         <li key={key}>
             {count} x
             {hero.name}
             <span className="image"><img src={hero.largeImg} /></span>
         </li>
-    )}
+    )
+    //}
   },
 
   render: function() {
