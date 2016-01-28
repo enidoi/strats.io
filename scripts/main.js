@@ -6,7 +6,7 @@ var Route = ReactRouter.Route;
 var Navigation = ReactRouter.Navigation;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
-
+var ToggleDisplay = require('react-toggle-display');
 //firebase
 // var Rebase = require('re-base');
 // var base = Rebase.createClass('https://glowing-fire-4684.firebaseio.com/');
@@ -40,21 +40,29 @@ var App = React.createClass({
     return {
       heroes : require('./herodata'),
       order: {},
-      selectedHeros: []
+      selectedHeros: [],
+      showResults: true
     }
   },
   // componentDidMount : function() {
   //   console.log("The Component Did Mount");
   //   base.syncState();
   // },
-  opponentState : function(key) 
+  opponentState : function(key)
   {
     this.state.selectedHeros.push(key)
     this.state.order[key] = this.state.order[key] + 1 || 1;
     this.setState({ order : this.state.order });
   },
+
   renderHero : function(key){
-    return <Hero key={key} index={key} selectedHeros={this.state.selectedHeros} details={this.state.heroes[key]} opponentState={this.opponentState} />
+    return (
+      <div key={key}>
+        <ToggleDisplay show={this.state.showResults}>
+          <Hero key={key} index={key} selectedHeros={this.state.selectedHeros} details={this.state.heroes[key]} opponentState={this.opponentState} filledOpponents={this.filledOpponents} />
+        </ToggleDisplay>
+      </div>
+    )
   },
 
 render : function() {
@@ -77,7 +85,7 @@ Hero componentloads the hero date into line items and an image for each hero. th
 */
 
 var Hero = React.createClass({
-  onButtonClick : function() 
+  onButtonClick : function()
   {
   	if(this.props.selectedHeros.length < 6)
   	{
@@ -85,6 +93,12 @@ var Hero = React.createClass({
     	this.props.opponentState(key);
     }
   },
+  filledOpponents : function () {
+    if (this.state.selectedHeros.length === 6) {
+      this.setState({ showResults: false });
+    }
+  },
+
 
   render: function() {
     var details = this.props.details;
@@ -92,7 +106,7 @@ var Hero = React.createClass({
 
 
     return (
-        <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.onButtonClick}>
+        <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.onButtonClick} filledOpponents={this.filledOpponents}>
           <p >{details.name}</p>
           <img src={details.largeImg} />
         </li>
@@ -105,36 +119,19 @@ var Hero = React.createClass({
 var Order = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
-    var count = this.props.order[key];
-    var i:int=0
+    var count = this.props.selectedHeros[key];
 
-
-    if(!hero) 
-    {
-      return <li key={key}> No one to play against</li>
-    }
-    else
-    {
-    	for(i=0;i<this.props.selectedHeros.length;i++)
-    	{
-    		console.log(this.props.heroes[this.props.selectedHeros[i]].name)
-    	}
-    }
-
-    //if (Object.keys(this.props.order).length  < 6)
-    //{
     return (
         <li key={key}>
-            {count} x
-            {hero.name}
-            <span className="image"><img src={hero.largeImg} /></span>
+            {this.props.heroes[this.props.selectedHeros[key]].name}
+            {console.log(this.props.heroes[this.props.selectedHeros[key]].name)}
+            <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
         </li>
     )
-    //}
   },
 
   render: function() {
-      var orderIds = Object.keys(this.props.order);
+      var orderIds = Object.keys(this.props.selectedHeros);
 
     return (
       <div className="order-wrap">
