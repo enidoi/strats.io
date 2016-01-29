@@ -18,6 +18,9 @@
 }
 .selected-opponents {
   border: 10px solid #000;
+  float: left;
+  display: inline;
+  margin: 10px;
 }
 .opponents {
   float: left;

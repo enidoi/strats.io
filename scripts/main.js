@@ -22,17 +22,6 @@ Methods:
 opponentState is the click handler in the hero component that loads my empty selectedOppponents object with here data
 renderHero renders the hero elements indivdually into react and list items in the HTML
 renderOpponents renders the selected opponetns above the hero select screen.
-
-
-
-**** CODE SNIPPET FROM Opponent component comments ****
-opponentState : function(key) {
-  this.state.selectedOppponents[key] = this.state.selectedOppponents[key];
-  this.setState({ selectedOppponents : this.state.selectedOppponents });
-
-
-
-
 */
 
 var App = React.createClass({
@@ -42,7 +31,7 @@ var App = React.createClass({
       order: {},
       selectedHeros: [],
       showResults: true
-    }
+    };
   },
   // componentDidMount : function() {
   //   console.log("The Component Did Mount");
@@ -54,7 +43,11 @@ var App = React.createClass({
     this.state.order[key] = this.state.order[key] + 1 || 1;
     this.setState({ order : this.state.order });
   },
-
+  filledOpponents : function () {
+    if (this.state.selectedHeros.length === 5) {
+      this.setState({ showResults: false });
+    }
+  },
   renderHero : function(key){
     return (
       <div key={key}>
@@ -87,15 +80,11 @@ Hero componentloads the hero date into line items and an image for each hero. th
 var Hero = React.createClass({
   onButtonClick : function()
   {
+    this.props.filledOpponents(this.props.selectedHeros.length);
   	if(this.props.selectedHeros.length < 6)
   	{
     	var key = this.props.index;
     	this.props.opponentState(key);
-    }
-  },
-  filledOpponents : function () {
-    if (this.state.selectedHeros.length === 6) {
-      this.setState({ showResults: false });
     }
   },
 
@@ -106,7 +95,7 @@ var Hero = React.createClass({
 
 
     return (
-        <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.onButtonClick} filledOpponents={this.filledOpponents}>
+        <li className={details.name + " " + details.type + " " + "heroes"} onClick={this.onButtonClick}>
           <p >{details.name}</p>
           <img src={details.largeImg} />
         </li>
@@ -122,7 +111,7 @@ var Order = React.createClass({
     var count = this.props.selectedHeros[key];
 
     return (
-        <li key={key}>
+        <li key={key} className="opponents">
             {this.props.heroes[this.props.selectedHeros[key]].name}
             {console.log(this.props.heroes[this.props.selectedHeros[key]].name)}
             <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
