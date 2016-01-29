@@ -43,12 +43,14 @@ var App = React.createClass({
   {
     // this.state.selectedHeros.push(key)
     this.setState({ selectedHeros: this.state.selectedHeros.concat([key])})
-    this.state.order[key] = this.state.order[key] + 1 || 1;
-    this.setState({ order : this.state.order });
+    // this.state.order[key] = this.state.order[key] + 1 || 1;
+    // this.setState({ order : this.state.order });
   },
   filledOpponents : function () {
     if (this.state.selectedHeros.length === 5) {
       this.setState({ showResults: false });
+    } else {
+      this.setState({ showResults: true });
     }
   },
   renderHero : function(key){
@@ -60,13 +62,47 @@ var App = React.createClass({
       </div>
     )
   },
+  removeOpponent : function(key) {
+
+
+      for (var i = 0; i < this.state.selectedHeros.length; i++) {
+        if(this.state.selectedHeros[i] === null)
+          return
+          this.setState({ showResults: true });
+          this.state.selectedHeros.splice(key);
+          this.setState({
+            selectedHeros : this.state.selectedHeros
+          });
+          this.state.order[key] = null;
+          this.setState ({
+            order : this.state.order
+          });
+      }
+      return
+        this.setState({ showResults: true });
+        delete this.state.selectedHeros[key];
+        this.setState({
+          selectedHeros : this.state.selectedHeros
+        });
+        this.state.order[key] = null;
+        this.setState ({
+          order : this.state.order
+        });
+  },
+  removeOrder : function(key) {
+    this.state.order[key] = null;
+    this.setState ({
+      order : this.state.order
+    });
+  },
+
 
 render : function() {
     return (
       <div className="app">
           <Header tagline="Counter your Enemies" />
             <div className="selected-opponents">
-              <Order selectedHeros={this.state.selectedHeros} heroes={this.state.heroes} order={this.state.order} />
+              <Order selectedHeros={this.state.selectedHeros} heroes={this.state.heroes} order={this.state.order} removeOpponent={this.removeOpponent} filledOpponents={this.filledOpponents} removeOrder={this.removeOrder}/>
             </div>
               <ul className="list-of-heroes">
                 {Object.keys(this.state.heroes).map(this.renderHero)}
@@ -112,12 +148,14 @@ var Order = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
     var count = this.props.selectedHeros[key];
+    var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
 
     return (
         <li key={key} className="opponents">
             {this.props.heroes[this.props.selectedHeros[key]].name}
             {console.log(this.props.heroes[this.props.selectedHeros[key]].name)}
             <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
+            {removeButton}
         </li>
     )
   },
