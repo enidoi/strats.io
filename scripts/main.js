@@ -7,9 +7,9 @@ var Navigation = ReactRouter.Navigation;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 var ToggleDisplay = require('react-toggle-display');
-//firebase
+// firebase
 // var Rebase = require('re-base');
-// var base = Rebase.createClass('https://glowing-fire-4684.firebaseio.com/');
+// var base = Rebase.createClass('https://strats-io.firebaseio.com/');
 
 
 
@@ -34,12 +34,15 @@ var App = React.createClass({
     };
   },
   // componentDidMount : function() {
-  //   console.log("The Component Did Mount");
-  //   base.syncState();
+  //   base.syncState('/', {
+  //     context : this,
+  //     state : 'this.state.heroes'
+  //   });
   // },
   opponentState : function(key)
   {
-    this.state.selectedHeros.push(key)
+    // this.state.selectedHeros.push(key)
+    this.setState({ selectedHeros: this.state.selectedHeros.concat([key])})
     this.state.order[key] = this.state.order[key] + 1 || 1;
     this.setState({ order : this.state.order });
   },
