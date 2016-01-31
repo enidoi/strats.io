@@ -46,9 +46,9 @@ var App = React.createClass({
   filledOpponents : function () {
     if (this.state.selectedHeros.length === 5) {
       this.setState({ showResults: false });
-    } else {
-      this.setState({ showResults: true });
-    }
+    } //else {
+    //   this.setState({ showResults: true });
+    // }
   },
   renderHero : function(key){
     return (
@@ -59,13 +59,13 @@ var App = React.createClass({
       </div>
     )
   },
-  removeOpponent : function(key, index) {
+  removeOpponent : function(key) {
       var index = this.state.selectedHeros.indexOf(key);
       console.log(index);
 
 
         if(index > -1)
-          return
+
           this.setState({ showResults: true });
           this.state.selectedHeros.splice(index, 1);
           this.setState({
@@ -135,8 +135,7 @@ var Order = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
     var count = this.props.selectedHeros[key];
-    var removeButton = <button onClick={this.props.removeOpponent.bind(null,key,index)} >&times;</button>
-    var index = this.props.selectedHeros.indexOf(key);
+    var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
     return (
         <li key={key} className="opponents">
 
