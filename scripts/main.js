@@ -8,6 +8,7 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 var ToggleDisplay = require('react-toggle-display');
 var nullHeros = require('./nullHeros');
+var update = require('react-addons-update');
 // firebase
 // var Rebase = require('re-base');
 // var base = Rebase.createClass('https://strats-io.firebaseio.com/');
@@ -33,11 +34,13 @@ var App = React.createClass({
       showResults: true
     };
   },
-  opponentState : function(key)
+  opponentState : function(index, key)
   {
     for (var i = 0; i < this.state.selectedHeros.length; i++) {
-      if(this.state.selectedHeros == null) {
-        this.setState({ selectedHeros: this.state.selectedHeros[i]})
+      if(this.state.selectedHeros[i] === null) {
+        this.state.selectedHeros[i] = {index: i, key: index};
+        var test = this.state.selectedHeros[i];
+        this.setState({selectedHeros : test});
         break;
       }
     }
@@ -91,8 +94,8 @@ Hero componentloads the hero date into line items and an image for each hero. th
 
 var Hero = React.createClass({
   onButtonClick : function() {
-    	var key = this.props.index;
-    	this.props.opponentState(key);
+    	var index = this.props.index;
+    	this.props.opponentState(index);
     },
 
 
@@ -129,8 +132,8 @@ var OpponentSection = React.createClass({
       } else {
           return (
             <li key={key} className="opponents">
-                {this.props.heroes[this.props.selectedHeros[key]].name}
-                <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
+                {hero[selectedHeros.key].name}
+                <span className="image"><img src={hero[selectedHeros.key].largeImg} /></span>
                 {removeButton}
             </li>
                 )
@@ -143,7 +146,7 @@ var OpponentSection = React.createClass({
 
     return (
       <div className="order-wrap">
-        <h2 className="order-title">Your Order</h2>
+        <h2 className="order-title">Kill These Heroes</h2>
         <ul className="order">
           {opponents.map(this.renderOrder)}
         </ul>
