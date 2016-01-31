@@ -59,18 +59,27 @@ var App = React.createClass({
       </div>
     )
   },
-  removeOpponent : function(key) {
-      var index = this.state.selectedHeros[key];
+  removeOpponent : function(key, index) {
+      var index = this.state.selectedHeros.indexOf(key);
       console.log(index);
-      for (var i = 0; i < this.state.selectedHeros.length; i++) {
-        if(this.state.selectedHeros[i] === null)
+
+
+        if(index > -1)
           return
           this.setState({ showResults: true });
-          this.state.selectedHeros.splice(key);
+          this.state.selectedHeros.splice(index, 1);
           this.setState({
             selectedHeros : this.state.selectedHeros
           });
-      }
+
+  //     if (this.state.selectedHeros[key] != null) {
+  //       return
+  //
+  //       this.state.selectedHeros.splice(key);
+  //       this.setState({
+  //         selectedHeros : this.state.selectedHeros
+  //       });
+  //     }
   },
 
 
@@ -126,9 +135,8 @@ var Order = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
     var count = this.props.selectedHeros[key];
-    var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
+    var removeButton = <button onClick={this.props.removeOpponent.bind(null,key,index)} >&times;</button>
     var index = this.props.selectedHeros.indexOf(key);
-    console.log(key);
     return (
         <li key={key} className="opponents">
 
