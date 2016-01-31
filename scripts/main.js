@@ -39,10 +39,10 @@ var App = React.createClass({
     for (var i = 0; i < this.state.selectedHeros.length; i++) {
       if(this.state.selectedHeros[i] === null) {
         this.state.selectedHeros[i] = {index: i, key: index};
-        var test = this.state.selectedHeros[i];
-        this.setState({selectedHeros : test});
-        break;
+        // var test = this.state.selectedHeros[i];
+        // this.setState({selectedHeros : test});
       }
+      break;
     }
   },
   filledOpponents : function () {
