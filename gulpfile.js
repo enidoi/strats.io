@@ -58,7 +58,7 @@ gulp.task('browser-sync', function() {
 function handleErrors() {
   var args = Array.prototype.slice.call(arguments);
   notify.onError({
-    title: 'Compile Error',
+    title: 'Shit is broken.',
     message: '<%= error.message %>'
   }).apply(this, args);
   this.emit('end'); // Keep gulp from hanging on this task
@@ -73,7 +73,7 @@ function buildScript(file, watch) {
     transform:  [babelify.configure({stage : 0 })]
   };
 
-  // watchify() if watch requested, otherwise run browserify() once 
+  // watchify() if watch requested, otherwise run browserify() once
   var bundler = watch ? watchify(browserify(props)) : browserify(props);
 
   function rebundle() {

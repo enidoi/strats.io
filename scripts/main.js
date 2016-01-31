@@ -28,7 +28,6 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      order: {},
       selectedHeros: [],
       showResults: true
     };
@@ -43,8 +42,6 @@ var App = React.createClass({
   {
     // this.state.selectedHeros.push(key)
     this.setState({ selectedHeros: this.state.selectedHeros.concat([key])})
-    // this.state.order[key] = this.state.order[key] + 1 || 1;
-    // this.setState({ order : this.state.order });
   },
   filledOpponents : function () {
     if (this.state.selectedHeros.length === 5) {
@@ -63,8 +60,8 @@ var App = React.createClass({
     )
   },
   removeOpponent : function(key) {
-
-
+      var index = this.state.selectedHeros[key];
+      console.log(index);
       for (var i = 0; i < this.state.selectedHeros.length; i++) {
         if(this.state.selectedHeros[i] === null)
           return
@@ -73,28 +70,9 @@ var App = React.createClass({
           this.setState({
             selectedHeros : this.state.selectedHeros
           });
-          this.state.order[key] = null;
-          this.setState ({
-            order : this.state.order
-          });
       }
-      return
-        this.setState({ showResults: true });
-        delete this.state.selectedHeros[key];
-        this.setState({
-          selectedHeros : this.state.selectedHeros
-        });
-        this.state.order[key] = null;
-        this.setState ({
-          order : this.state.order
-        });
   },
-  removeOrder : function(key) {
-    this.state.order[key] = null;
-    this.setState ({
-      order : this.state.order
-    });
-  },
+
 
 
 render : function() {
@@ -149,11 +127,12 @@ var Order = React.createClass({
     var hero = this.props.heroes[key];
     var count = this.props.selectedHeros[key];
     var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
-
+    var index = this.props.selectedHeros.indexOf(key);
+    console.log(key);
     return (
         <li key={key} className="opponents">
+
             {this.props.heroes[this.props.selectedHeros[key]].name}
-            {console.log(this.props.heroes[this.props.selectedHeros[key]].name)}
             <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
             {removeButton}
         </li>
