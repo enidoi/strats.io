@@ -31,7 +31,7 @@ var App = React.createClass(
 			showResults: true
 		};
     },
-    
+
     opponentState : function(index, key)
     {
     	for (var i = 0; i < this.state.selectedHeros.length; i++)
@@ -40,20 +40,20 @@ var App = React.createClass(
     		{
     			this.state.selectedHeros[i] = {index: i, key: index};
     			// var test = this.state.selectedHeros[i];
-    			// this.setState({selectedHeros : test});
+    			this.setState({selectedHeros : this.state.selectedHeros});
     			break; //has to go here or else you only loop once...
     		}
     	}
     },
-    
+
     filledOpponents : function ()
     {
-    	if (this.state.selectedHeros.length === 5)
-    	{
-    		this.setState({ showResults: false });
-    	}
+    	if (this.state.selectedHeros.length === 5) {
+        	this.setState({ showResults: false });
+        }
+
     },
-    
+
     renderHero : function(key)
     {
     	return (
@@ -64,12 +64,12 @@ var App = React.createClass(
 			</div>
 		)
 	},
-	
+
 	removeOpponent : function(key)
 	{
   		var index = this.state.selectedHeros.indexOf(key);
   		console.log(index);
-  		
+
   		if(index > -1)
   		{
         	this.setState({ showResults: true });
@@ -78,7 +78,7 @@ var App = React.createClass(
     	}
     },
 
-	render : function() 
+	render : function()
 	{
     	return (
       		<div className="app">
@@ -98,13 +98,13 @@ Hero componentloads the hero date into line items and an image for each hero. th
 
 var Hero = React.createClass(
 {
-  onButtonClick : function() 
+  onButtonClick : function()
   {
   	var index = this.props.index;
   	this.props.opponentState(index);
   },
-  
-  render: function() 
+
+  render: function()
   {
     var details = this.props.details;
 
@@ -119,39 +119,39 @@ var Hero = React.createClass(
 
 var OpponentSection = React.createClass(
 {
-  renderOrder : function(key) 
+  renderOrder : function(key)
   {
     var hero = this.props.heroes[key];
     var nullHeros = this.props.nullHeros;
     var selectedHeros = this.props.selectedHeros;
     var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
-    for (var i = 0; i < selectedHeros.length; i++) 
+
+    for (var i = 0; i < selectedHeros.length; i++)
     {
-        if (selectedHeros[i] === null) 
+        if (selectedHeros[i] === null)
         {
         	return (
-        		<li key={key} className="opponents">
-        			{nullHeros[i].name}
-        		<span className="image"><img src={nullHeros[i].largeImg} /></span>
-        		</li>
+            		<li key={key} className="opponents">
+            			{nullHeros[i].name}
+                        <span className="image"><img src={nullHeros[i].largeImg} /></span>
+            		</li>
         	)
-        } 
-        else 
-        {
-          return (
-          	<li key={key} className="opponents">
-          		{hero[selectedHeros.key].name}
-          		<span className="image"><img src={hero[selectedHeros.key].largeImg} /></span>
-          		{removeButton}
-            </li>
-            )
         }
-    }
-  },
+        else if (selectedHeros[i] != null) {
+          return (
+                  	<li key={key} className="opponents">
+                  		{this.props.heroes[selectedHeros[i].key].name}
+                  		<span className="image"><img src={this.props.heroes[selectedHeros[i].key].largeImg} /></span>
+                  		{removeButton}
+                    </li>
+                )
+            };
+        }
+    },
 
-  render: function() 
+  render: function()
   {
-  
+
   	var opponents = Object.keys(this.props.selectedHeros);
 
     return (
@@ -167,7 +167,7 @@ var OpponentSection = React.createClass(
 
 var Header = React.createClass(
 {
-	render : function() 
+	render : function()
 	{
     	return (
     		<header className="top">
