@@ -1384,7 +1384,7 @@ let owHeroData = [
 	"ShiftProjectileSpeed":null,
 	"AbilityProjectileSpeed":null,
 	"UltimateProjectileSpeed":null,
-}
+},
 ];
 
 export default owHeroData;

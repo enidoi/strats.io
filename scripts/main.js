@@ -7,6 +7,7 @@ var Navigation = ReactRouter.Navigation;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var History = ReactRouter.History;
 var ToggleDisplay = require('react-toggle-display');
+var nullHeros = require('./nullHeros');
 // firebase
 // var Rebase = require('re-base');
 // var base = Rebase.createClass('https://strats-io.firebaseio.com/');
@@ -28,27 +29,23 @@ var App = React.createClass({
   getInitialState : function(){
     return {
       heroes : require('./herodata'),
-      selectedHeros: [],
+      selectedHeros: [null, null, null, null, null, null],
       showResults: true
     };
   },
-  // componentDidMount : function() {
-  //   base.syncState('/', {
-  //     context : this,
-  //     state : 'this.state.heroes'
-  //   });
-  // },
   opponentState : function(key)
   {
-    // this.state.selectedHeros.push(key)
-    this.setState({ selectedHeros: this.state.selectedHeros.concat([key])})
+    for (var i = 0; i < this.state.selectedHeros.length; i++) {
+      if(this.state.selectedHeros == null) {
+        this.setState({ selectedHeros: this.state.selectedHeros[i]})
+        break;
+      }
+    }
   },
   filledOpponents : function () {
     if (this.state.selectedHeros.length === 5) {
       this.setState({ showResults: false });
-    } //else {
-    //   this.setState({ showResults: true });
-    // }
+    }
   },
   renderHero : function(key){
     return (
@@ -62,24 +59,13 @@ var App = React.createClass({
   removeOpponent : function(key) {
       var index = this.state.selectedHeros.indexOf(key);
       console.log(index);
-
-
         if(index > -1)
-
           this.setState({ showResults: true });
           this.state.selectedHeros.splice(index, 1);
           this.setState({
             selectedHeros : this.state.selectedHeros
           });
 
-  //     if (this.state.selectedHeros[key] != null) {
-  //       return
-  //
-  //       this.state.selectedHeros.splice(key);
-  //       this.setState({
-  //         selectedHeros : this.state.selectedHeros
-  //       });
-  //     }
   },
 
 
@@ -89,7 +75,7 @@ render : function() {
       <div className="app">
           <Header tagline="Counter your Enemies" />
             <div className="selected-opponents">
-              <Order selectedHeros={this.state.selectedHeros} heroes={this.state.heroes} order={this.state.order} removeOpponent={this.removeOpponent} filledOpponents={this.filledOpponents} removeOrder={this.removeOrder}/>
+              <OpponentSection selectedHeros={this.state.selectedHeros} heroes={this.state.heroes} removeOpponent={this.removeOpponent} filledOpponents={this.filledOpponents} nullHeros={nullHeros}/>
             </div>
               <ul className="list-of-heroes">
                 {Object.keys(this.state.heroes).map(this.renderHero)}
@@ -104,15 +90,10 @@ Hero componentloads the hero date into line items and an image for each hero. th
 */
 
 var Hero = React.createClass({
-  onButtonClick : function()
-  {
-    this.props.filledOpponents(this.props.selectedHeros.length);
-  	if(this.props.selectedHeros.length < 6)
-  	{
+  onButtonClick : function() {
     	var key = this.props.index;
     	this.props.opponentState(key);
-    }
-  },
+    },
 
 
   render: function() {
@@ -131,29 +112,40 @@ var Hero = React.createClass({
 
 
 
-var Order = React.createClass({
+var OpponentSection = React.createClass({
   renderOrder : function(key) {
     var hero = this.props.heroes[key];
-    var count = this.props.selectedHeros[key];
+    var nullHeros = this.props.nullHeros;
+    var selectedHeros = this.props.selectedHeros;
     var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
-    return (
+    for (var i = 0; i < selectedHeros.length; i++) {
+        if (selectedHeros[i] === null) {
+        return (
         <li key={key} className="opponents">
-
-            {this.props.heroes[this.props.selectedHeros[key]].name}
-            <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
-            {removeButton}
+            {nullHeros[i].name}
+            <span className="image"><img src={nullHeros[i].largeImg} /></span>
         </li>
-    )
+      )
+      } else {
+          return (
+            <li key={key} className="opponents">
+                {this.props.heroes[this.props.selectedHeros[key]].name}
+                <span className="image"><img src={this.props.heroes[this.props.selectedHeros[key]].largeImg} /></span>
+                {removeButton}
+            </li>
+                )
+              }
+            }
   },
 
   render: function() {
-      var orderIds = Object.keys(this.props.selectedHeros);
+      var opponents = Object.keys(this.props.selectedHeros);
 
     return (
       <div className="order-wrap">
         <h2 className="order-title">Your Order</h2>
         <ul className="order">
-          {orderIds.map(this.renderOrder)}
+          {opponents.map(this.renderOrder)}
         </ul>
       </div>
     )
