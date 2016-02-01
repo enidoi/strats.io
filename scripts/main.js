@@ -46,11 +46,15 @@ var App = React.createClass(
     	}
     },
 
-    filledOpponents : function ()
+    filledOpponents : function (key)
     {
-    	if (this.state.selectedHeros.length === 5) {
-            console.log(this.state.selectedHeros.length);
-        	this.setState({ showResults: false });
+        //Doesnt Work!
+    	// if (this.state.selectedHeros.length === 5) {
+        //     console.log(this.state.selectedHeros.length);
+        // 	this.setState({ showResults: false });
+        // }
+        this.state.selectedHeros.isNull = function(){
+            return this.setState({ showResults: false });
         }
 
     },
@@ -68,13 +72,13 @@ var App = React.createClass(
 
 	removeOpponent : function(key)
 	{
-  		var index = this.state.selectedHeros.indexOf(key);
-  		console.log(index);
+		var index = this.state.selectedHeros[key].index;
+		console.log(index);
 
   		if(index > -1)
   		{
         	this.setState({ showResults: true });
-        	this.state.selectedHeros.splice(index, 1);
+        	this.state.selectedHeros[index] = null;
         	this.setState({selectedHeros : this.state.selectedHeros});
     	}
     },
@@ -127,33 +131,28 @@ var OpponentSection = React.createClass(
     var selectedHeros = this.props.selectedHeros;
     var removeButton = <button onClick={this.props.removeOpponent.bind(null,key)} >&times;</button>
 
-    for (var i = 0; i < selectedHeros.length; i++)
-    {
-        if (selectedHeros[i] === null)
+
+        if (selectedHeros[key] === null)
         {
-        	return (
-            		<li key={key} className="opponents">
-            			{nullHeros[i].name}
-                        <span className="image"><img src={nullHeros[i].largeImg} /></span>
-            		</li>
-        	)
+    		return <li key={key} className={"opponents" + " " + key}>
+    			{nullHeros[key].name}
+                <span className="image"><img src={nullHeros[key].largeImg} /></span>
+    		</li>
+
         } else {
-
-                  	<li key={key} className="opponents">
-                  		{this.props.heroes[selectedHeros[i].key].name}
-                  		<span className="image"><img src={this.props.heroes[selectedHeros[i].key].largeImg} /></span>
-                  		{removeButton}
-                    </li>
-
+                return <li key={key} className="opponents">
+              		{this.props.heroes[selectedHeros[key].key].name}
+              		<span className="image"><img src={this.props.heroes[selectedHeros[key].key].largeImg} /></span>
+              		{removeButton}
+                </li>
             }
-        }
+
     },
 
   render: function()
   {
 
   	var opponents = Object.keys(this.props.selectedHeros);
-
     return (
     	<div className="order-wrap">
     	<h2 className="order-title">Kill These Heroes</h2>
