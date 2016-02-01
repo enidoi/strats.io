@@ -34,6 +34,7 @@ var App = React.createClass(
 
     opponentState : function(index, key)
     {
+    	var nullFound = false;
     	for (var i = 0; i < this.state.selectedHeros.length; i++)
     	{
     		if(this.state.selectedHeros[i] === null)
@@ -43,6 +44,24 @@ var App = React.createClass(
     			this.setState({selectedHeros : this.state.selectedHeros});
     			break; //has to go here or else you only loop once...
     		}
+    	}
+    	
+    	for (var i = 0; i < this.state.selectedHeros.length; i++)
+    	{
+    		if(this.state.selectedHeros[i] === null)
+    		{
+    			nullFound = true;
+    			break;
+    		}
+    	}
+    	
+    	if(nullFound)
+    	{
+    		return this.setState({ showResults: true });
+    	}
+    	else
+    	{
+    		return this.setState({ showResults: false });
     	}
     },
 
