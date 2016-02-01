@@ -49,6 +49,7 @@ var App = React.createClass(
     filledOpponents : function ()
     {
     	if (this.state.selectedHeros.length === 5) {
+            console.log(this.state.selectedHeros.length);
         	this.setState({ showResults: false });
         }
 
@@ -136,16 +137,15 @@ var OpponentSection = React.createClass(
                         <span className="image"><img src={nullHeros[i].largeImg} /></span>
             		</li>
         	)
-        }
-        else if (selectedHeros[i] != null) {
-          return (
+        } else {
+
                   	<li key={key} className="opponents">
                   		{this.props.heroes[selectedHeros[i].key].name}
                   		<span className="image"><img src={this.props.heroes[selectedHeros[i].key].largeImg} /></span>
                   		{removeButton}
                     </li>
-                )
-            };
+
+            }
         }
     },
 
