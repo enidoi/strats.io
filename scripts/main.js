@@ -8,9 +8,11 @@ var createBrowserHistory = require('history/lib/createBrowserHistory')
 var History = ReactRouter.History
 var ToggleDisplay = require('react-toggle-display')
 var nullHeros = require('./nullHeros')
+var heroes = require('./herodata');
+var h = require('./helpers')
 // firebase
-// var Rebase = require('re-base')
-// var base = Rebase.createClass('https://strats-io.firebaseio.com/')
+var Rebase = require('re-base')
+var base = Rebase.createClass('https://strats-io.firebaseio.com/')
 
 /*
 Initial State - Heroes with data, selectedOppponents empty object.
@@ -24,12 +26,22 @@ var App = React.createClass(
   {
     getInitialState: function () {
       return {
-        heroes: require('./herodata'),
+
         selectedHeros: [null, null, null, null, null, null],
         showResults: true
       }
     },
-
+    componentDidMount : function() {
+      base.syncState(this.props.params.playerName + '/heroes', {
+        context : this,
+        state : ''
+      });
+    },
+    loadHeroes : function() {
+      this.setState({
+        heroes : require('./herodata')
+      });
+    },
     opponentState: function (index, key) {
       var nullFound = false
       for (var i = 0; i < this.state.selectedHeros.length; i++) {
@@ -74,9 +86,10 @@ var App = React.createClass(
             key={key}
             index={key}
             selectedHeros={this.state.selectedHeros}
-            details={this.state.heroes[key]}
+            details={heroes[key]}
             opponentState={this.opponentState}
-            filledOpponents={this.filledOpponents} />
+            filledOpponents={this.filledOpponents}
+             />
         </ToggleDisplay>
       </div>
       )
@@ -100,13 +113,14 @@ var App = React.createClass(
         <div className="selected-opponents">
           <OpponentSection
             selectedHeros={this.state.selectedHeros}
-            heroes={this.state.heroes}
+            heroes={heroes}
             removeOpponent={this.removeOpponent}
             filledOpponents={this.filledOpponents}
-            nullHeros={nullHeros} />
+            nullHeros={nullHeros}
+            loadHeroes={this.loadHeroes} />
         </div>
         <ul className="list-of-heroes">
-          {Object.keys(this.state.heroes).map(this.renderHero)}
+          {Object.keys(heroes).map(this.renderHero)}
         </ul>
       </div>
       )
@@ -120,7 +134,7 @@ Hero componentloads the hero date into line items and an image for each hero. th
 var Hero = React.createClass(
   {
     onButtonClick: function () {
-      var index = this.props.index
+      var index = heroes.index
       this.props.opponentState(index)
     },
 
@@ -128,12 +142,15 @@ var Hero = React.createClass(
       var details = this.props.details
 
       return (
+        <div>
       <li className={details.name + ' ' + details.type + ' ' + 'heroes'} onClick={this.onButtonClick}>
         <p>
           {details.name}
         </p>
         <img src={details.largeImg} />
       </li>
+
+      </div>
       )
     }
   })
@@ -141,11 +158,11 @@ var Hero = React.createClass(
 var OpponentSection = React.createClass(
   {
     renderOrder: function (key) {
-      var hero = this.props.heroes[key]
+      var hero = heroes[key]
       var nullHeros = this.props.nullHeros
       var selectedHeros = this.props.selectedHeros
       var removeButton = <button onClick={this.props.removeOpponent.bind(null, key)}>
-                           &times
+                           &times;
                          </button>
 
       if (selectedHeros[key] === null) {
@@ -155,8 +172,8 @@ var OpponentSection = React.createClass(
                </li>
       } else {
         return <li key={key} className="opponents">
-                 {this.props.heroes[selectedHeros[key].key].name}
-                 <span className="image"><img src={this.props.heroes[selectedHeros[key].key].largeImg} /></span>
+                 {hero[selectedHeros[key]].name}
+                 <span className="image"><img src={hero[selectedHeros[key]].largeImg} /></span>
                  {removeButton}
                </li>
       }
@@ -170,6 +187,7 @@ var OpponentSection = React.createClass(
         <ul className="order">
           {opponents.map(this.renderOrder)}
         </ul>
+        <button onClick={this.props.loadHeroes}>Load Heroes</button>
       </div>
       )
     }
@@ -201,13 +219,40 @@ var NotFound = React.createClass(
     }
   })
 
+
+
+//Login Page
+
+var LoginPicker = React.createClass({
+  mixins : [History],
+    goPlayer : function(event) {
+      event.preventDefault();
+      var playerName = this.refs.playerName.value;
+      this.history.pushState(null, '/player/' + playerName);
+    },
+    render : function() {
+      return (
+        <form className="login-picker" onSubmit={this.goPlayer}>
+          <h2>Who are you?</h2>
+          <input type="text" ref="playerName" defaultValue={h.getFunName()} required />
+          <input type="Submit" />
+        </form>
+      )
+    }
+})
+
+
+
+
+
 /*
 Routes
 */
 
 var routes = (
 <Router history={createBrowserHistory()}>
-  <Route path="/" component={App} />
+  <Route path="/" component={LoginPicker} />
+  <Route path="/player/:playerName" component={App} />
   <Route path="*" component={NotFound} />
 </Router>
 )
