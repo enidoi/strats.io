@@ -26,7 +26,7 @@ var App = React.createClass(
   {
     getInitialState: function () {
       return {
-
+        hero1: {},
         selectedHeros: [null, null, null, null, null, null],
         showResults: true
       }
@@ -34,12 +34,7 @@ var App = React.createClass(
     componentDidMount : function() {
       base.syncState(this.props.params.playerName + '/heroes', {
         context : this,
-        state : ''
-      });
-    },
-    loadHeroes : function() {
-      this.setState({
-        heroes : require('./herodata')
+        state : 'hero1'
       });
     },
     opponentState: function (index, key) {
@@ -47,7 +42,7 @@ var App = React.createClass(
       for (var i = 0; i < this.state.selectedHeros.length; i++) {
         if (this.state.selectedHeros[i] === null) {
           this.state.selectedHeros[i] = {index: i, key: index}
-          // var test = this.state.selectedHeros[i]
+
           this.setState({selectedHeros: this.state.selectedHeros})
           break // has to go here or else you only loop once...
         }
@@ -81,7 +76,7 @@ var App = React.createClass(
     renderHero: function (key) {
       return (
       <div key={key}>
-        <ToggleDisplay show={this.state.showResults}>
+
           <Hero
             key={key}
             index={key}
@@ -89,8 +84,9 @@ var App = React.createClass(
             details={heroes[key]}
             opponentState={this.opponentState}
             filledOpponents={this.filledOpponents}
+            heroes={heroes}
              />
-        </ToggleDisplay>
+
       </div>
       )
     },
@@ -119,9 +115,11 @@ var App = React.createClass(
             nullHeros={nullHeros}
             loadHeroes={this.loadHeroes} />
         </div>
-        <ul className="list-of-heroes">
-          {Object.keys(heroes).map(this.renderHero)}
-        </ul>
+        <ToggleDisplay show={this.state.showResults}>
+          <ul className="list-of-heroes">
+            {Object.keys(heroes).map(this.renderHero)}
+          </ul>
+        </ToggleDisplay>
       </div>
       )
     }
@@ -134,7 +132,7 @@ Hero componentloads the hero date into line items and an image for each hero. th
 var Hero = React.createClass(
   {
     onButtonClick: function () {
-      var index = heroes.index
+      var index = this.props.index
       this.props.opponentState(index)
     },
 
@@ -158,7 +156,7 @@ var Hero = React.createClass(
 var OpponentSection = React.createClass(
   {
     renderOrder: function (key) {
-      var hero = heroes[key]
+      var hero = this.props.heroes[key]
       var nullHeros = this.props.nullHeros
       var selectedHeros = this.props.selectedHeros
       var removeButton = <button onClick={this.props.removeOpponent.bind(null, key)}>
@@ -172,8 +170,8 @@ var OpponentSection = React.createClass(
                </li>
       } else {
         return <li key={key} className="opponents">
-                 {hero[selectedHeros[key]].name}
-                 <span className="image"><img src={hero[selectedHeros[key]].largeImg} /></span>
+                 {this.props.heroes[selectedHeros[key].key].name}
+                 <span className="image"><img src={this.props.heroes[selectedHeros[key].key].largeImg} /></span>
                  {removeButton}
                </li>
       }
@@ -187,7 +185,6 @@ var OpponentSection = React.createClass(
         <ul className="order">
           {opponents.map(this.renderOrder)}
         </ul>
-        <button onClick={this.props.loadHeroes}>Load Heroes</button>
       </div>
       )
     }
