@@ -31,12 +31,12 @@ var App = React.createClass(
         showResults: true
       }
     },
-    componentDidMount : function() {
-      base.syncState(this.props.params.playerName + '/heroes', {
-        context : this,
-        state : 'hero1'
-      });
-    },
+    // componentDidMount : function() {
+    //   base.syncState('/heroes', {
+    //     context : this,
+    //     state : 'selectedHeros'
+    //   });
+    // },
     opponentState: function (index, key) {
       var nullFound = false
       for (var i = 0; i < this.state.selectedHeros.length; i++) {
@@ -115,11 +115,13 @@ var App = React.createClass(
             nullHeros={nullHeros}
             loadHeroes={this.loadHeroes} />
         </div>
-        <ToggleDisplay show={this.state.showResults}>
-          <ul className="list-of-heroes">
-            {Object.keys(heroes).map(this.renderHero)}
-          </ul>
-        </ToggleDisplay>
+        <div className="list-of-heroes">
+          <ToggleDisplay show={this.state.showResults}>
+            <ul className="list-of-heroes2">
+              {Object.keys(heroes).map(this.renderHero)}
+            </ul>
+          </ToggleDisplay>
+        </div>
       </div>
       )
     }
@@ -216,40 +218,13 @@ var NotFound = React.createClass(
     }
   })
 
-
-
-//Login Page
-
-var LoginPicker = React.createClass({
-  mixins : [History],
-    goPlayer : function(event) {
-      event.preventDefault();
-      var playerName = this.refs.playerName.value;
-      this.history.pushState(null, '/player/' + playerName);
-    },
-    render : function() {
-      return (
-        <form className="login-picker" onSubmit={this.goPlayer}>
-          <h2>Who are you?</h2>
-          <input type="text" ref="playerName" defaultValue={h.getFunName()} required />
-          <input type="Submit" />
-        </form>
-      )
-    }
-})
-
-
-
-
-
 /*
 Routes
 */
 
 var routes = (
 <Router history={createBrowserHistory()}>
-  <Route path="/" component={LoginPicker} />
-  <Route path="/player/:playerName" component={App} />
+  <Route path="/" component={App} />
   <Route path="*" component={NotFound} />
 </Router>
 )
