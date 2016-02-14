@@ -144,9 +144,9 @@ var Hero = React.createClass(
       return (
         <div>
       <li className={details.name + ' ' + details.type + ' ' + 'heroes'} onClick={this.onButtonClick}>
-        <p>
+        <h2><span>
           {details.name}
-        </p>
+        </span></h2>
         <img src={details.largeImg} />
       </li>
 
@@ -167,12 +167,12 @@ var OpponentSection = React.createClass(
 
       if (selectedHeros[key] === null) {
         return <li key={key} className={'opponents' + ' ' + key}>
-                 {nullHeros[key].name}
+                 <h2><span>{nullHeros[key].name}</span></h2>
                  <span className="image"><img src={nullHeros[key].largeImg} /></span>
                </li>
       } else {
         return <li key={key} className="opponents">
-                 {this.props.heroes[selectedHeros[key].key].name}
+                 <h2><span>{this.props.heroes[selectedHeros[key].key].name}</span></h2>
                  <span className="image"><img src={this.props.heroes[selectedHeros[key].key].largeImg} /></span>
                  {removeButton}
                </li>
@@ -183,7 +183,7 @@ var OpponentSection = React.createClass(
       var opponents = Object.keys(this.props.selectedHeros)
       return (
       <div className="order-wrap">
-        <h2 className="order-title">Kill These Heroes</h2>
+        <h3 className="order-title">Kill These Heroes</h3>
         <ul className="order">
           {opponents.map(this.renderOrder)}
         </ul>

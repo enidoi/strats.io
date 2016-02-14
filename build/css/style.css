@@ -8,23 +8,84 @@
           flex-flow: column;
 }
 .heroes {
-  float: left;
-  margin: 10px;
-  display: inline;
-  border: 1px solid #ffa500;
+  position: relative;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
-.list-of-heroes {
+.list-of-heroes2 {
   border: 10px solid #00f;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 .selected-opponents {
   border: 10px solid #000;
-  float: left;
-  display: inline;
   margin: 10px;
 }
 .opponents {
-  float: left;
-  display: inline;
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   margin: 10px;
   border: 1px solid #f00;
+}
+.Attacker {
+  -webkit-box-flex: 5;
+  -webkit-flex-grow: 5;
+      -ms-flex-positive: 5;
+          flex-grow: 5;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  border: 2px solid #800080;
+}
+.Defense {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  border: 2px solid #008000;
+}
+.Tank {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  border: 2px solid #add8e6;
+}
+.Support {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  border: 2px solid #99f;
+}
+h2 {
+  position: absolute;
+  left: 0;
+  top: 43%;
+  width: 100%;
+}
+h2 span {
+  color: #fff;
+  font: bold 14px/20px Helvetica, Sans-Serif;
+  letter-spacing: -1px;
+  background: #000; /* fallback color */
+  background: rgba(0,0,0,0.6);
+  padding: 3px;
+}
+h2 span.spacer {
+  padding: 0 5px;
 }
