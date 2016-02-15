@@ -8,9 +8,11 @@ var createBrowserHistory = require('history/lib/createBrowserHistory')
 var History = ReactRouter.History
 var ToggleDisplay = require('react-toggle-display')
 var nullHeros = require('./nullHeros')
+var heroes = require('./herodata');
+var h = require('./helpers')
 // firebase
-// var Rebase = require('re-base')
-// var base = Rebase.createClass('https://strats-io.firebaseio.com/')
+var Rebase = require('re-base')
+var base = Rebase.createClass('https://strats-io.firebaseio.com/')
 
 /*
 Initial State - Heroes with data, selectedOppponents empty object.
@@ -24,18 +26,23 @@ var App = React.createClass(
   {
     getInitialState: function () {
       return {
-        heroes: require('./herodata'),
+        hero1: {},
         selectedHeros: [null, null, null, null, null, null],
         showResults: true
       }
     },
-
+    // componentDidMount : function() {
+    //   base.syncState('/heroes', {
+    //     context : this,
+    //     state : 'selectedHeros'
+    //   });
+    // },
     opponentState: function (index, key) {
       var nullFound = false
       for (var i = 0; i < this.state.selectedHeros.length; i++) {
         if (this.state.selectedHeros[i] === null) {
           this.state.selectedHeros[i] = {index: i, key: index}
-          // var test = this.state.selectedHeros[i]
+
           this.setState({selectedHeros: this.state.selectedHeros})
           break // has to go here or else you only loop once...
         }
@@ -69,15 +76,17 @@ var App = React.createClass(
     renderHero: function (key) {
       return (
       <div key={key}>
-        <ToggleDisplay show={this.state.showResults}>
+
           <Hero
             key={key}
             index={key}
             selectedHeros={this.state.selectedHeros}
-            details={this.state.heroes[key]}
+            details={heroes[key]}
             opponentState={this.opponentState}
-            filledOpponents={this.filledOpponents} />
-        </ToggleDisplay>
+            filledOpponents={this.filledOpponents}
+            heroes={heroes}
+             />
+
       </div>
       )
     },
@@ -100,14 +109,19 @@ var App = React.createClass(
         <div className="selected-opponents">
           <OpponentSection
             selectedHeros={this.state.selectedHeros}
-            heroes={this.state.heroes}
+            heroes={heroes}
             removeOpponent={this.removeOpponent}
             filledOpponents={this.filledOpponents}
-            nullHeros={nullHeros} />
+            nullHeros={nullHeros}
+            loadHeroes={this.loadHeroes} />
         </div>
-        <ul className="list-of-heroes">
-          {Object.keys(this.state.heroes).map(this.renderHero)}
-        </ul>
+        <div className="list-of-heroes">
+          <ToggleDisplay show={this.state.showResults}>
+            <ul className="list-of-heroes2">
+              {Object.keys(heroes).map(this.renderHero)}
+            </ul>
+          </ToggleDisplay>
+        </div>
       </div>
       )
     }
@@ -129,10 +143,10 @@ var Hero = React.createClass(
 
       return (
       <li className={details.name + ' ' + details.type + ' ' + 'heroes'} onClick={this.onButtonClick}>
-        <p>
+        <div><h2><span>
           {details.name}
-        </p>
-        <img src={details.largeImg} />
+        </span></h2>
+        <img src={details.largeImg} /></div>
       </li>
       )
     }
@@ -145,17 +159,17 @@ var OpponentSection = React.createClass(
       var nullHeros = this.props.nullHeros
       var selectedHeros = this.props.selectedHeros
       var removeButton = <button onClick={this.props.removeOpponent.bind(null, key)}>
-                           &times
+                           &times;
                          </button>
 
       if (selectedHeros[key] === null) {
         return <li key={key} className={'opponents' + ' ' + key}>
-                 {nullHeros[key].name}
+                 <h2><span>{nullHeros[key].name}</span></h2>
                  <span className="image"><img src={nullHeros[key].largeImg} /></span>
                </li>
       } else {
         return <li key={key} className="opponents">
-                 {this.props.heroes[selectedHeros[key].key].name}
+                 <h2><span>{this.props.heroes[selectedHeros[key].key].name}</span></h2>
                  <span className="image"><img src={this.props.heroes[selectedHeros[key].key].largeImg} /></span>
                  {removeButton}
                </li>
@@ -166,7 +180,7 @@ var OpponentSection = React.createClass(
       var opponents = Object.keys(this.props.selectedHeros)
       return (
       <div className="order-wrap">
-        <h2 className="order-title">Kill These Heroes</h2>
+        <h3 className="order-title">Kill These Heroes</h3>
         <ul className="order">
           {opponents.map(this.renderOrder)}
         </ul>

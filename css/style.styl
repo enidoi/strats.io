@@ -1,28 +1,79 @@
-.app
-  display flex
-  flex-flow column
+body
+  font-family: sans-serif;
+  margin: 0;
+  background-image: linear-gradient(260deg, #2376ae 0%, #c16ecf 100%);
 
+.app
+  margin: 0 auto;
+  padding:50px;
 
 
 .heroes
-  float left
-  margin 10px
-  display inline
-  border 1px solid orange
-
-
-.list-of-heroes
-  border 10px solid blue
-
-
-.selected-opponents
-  border 10px solid black
-  float left
-  display inline
-  margin 10px
+  position relative
 
 .opponents
-  float left
-  display inline
-  margin 10px
+  position relative
+  margin 0px
   border 1px solid red
+
+/* flex container*/
+ul.list-of-heroes2
+  list-style none
+  margin 0
+  padding 0
+  display flex
+  flex-wrap wrap
+
+
+/* flex items */
+li.list-of-heroes2
+  display flex
+  align-items center
+  padding 0px 0px
+
+
+
+
+
+
+.Attacker
+  border 2px solid purple
+
+
+.Defense
+  border 2px solid green
+
+.Tank
+  border 2px solid lightblue
+
+.Support
+  border 2px solid lightness(blue, 80%)
+
+ul.order
+  margin 0
+  padding 0
+  display flex
+  list-style none
+
+li.order
+  display block
+  margin 0px
+
+
+
+h2
+  position: absolute;
+  left: 0;
+  top: 43%
+  width: 100%;
+
+h2 span
+  color: white;
+  font: bold 14px/20px Helvetica, Sans-Serif;
+  letter-spacing: -1px;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px;
+
+h2 span.spacer
+  padding 0 5px
