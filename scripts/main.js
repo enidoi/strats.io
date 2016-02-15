@@ -144,12 +144,11 @@ var Hero = React.createClass(
       return (
         <div>
       <li className={details.name + ' ' + details.type + ' ' + 'heroes'} onClick={this.onButtonClick}>
-        <h2><span>
+        <div><h2><span>
           {details.name}
         </span></h2>
-        <img src={details.largeImg} />
+        <img src={details.largeImg} /></div>
       </li>
-
       </div>
       )
     }

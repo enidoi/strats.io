@@ -1,46 +1,58 @@
+body
+  font-family: sans-serif;
+  margin: 0;
+  background-image: linear-gradient(260deg, #2376ae 0%, #c16ecf 100%);
+
 .app
   display flex
-  flex-flow column
+  width 800px
+  margin: 0 auto;
+  padding:50px;
 
-
+img
+  max-width 100%
 
 .heroes
   position relative
-  flex-direction row
+
+/* flex container*/
+.list-of-heroes2 ul
+  margin 0
+  padding 0
   display flex
 
-.list-of-heroes2
-  border 10px solid blue
-  flex-direction row
 
-.selected-opponents
-  border 10px solid black
-  margin 10px
 
-.opponents
-  position relative
-  display inline-flex
-  margin 10px
-  border 1px solid red
+
+
+.list-of-heroes2 li
+  list-style none
+  display flex
+  align-items center
+  padding 0px 0px
+
+
+
 
 
 .Attacker
-  flex-grow 5
-  display inline-flex
   border 2px solid purple
 
 
 .Defense
-  display inline-flex
   border 2px solid green
 
 .Tank
-  display inline-flex
   border 2px solid lightblue
 
 .Support
-  display inline-flex
   border 2px solid lightness(blue, 80%)
+
+.opponents
+  list-style none
+  position relative
+  margin 0px
+  border 1px solid red
 
 h2
   position: absolute;
@@ -52,9 +64,9 @@ h2 span
   color: white;
   font: bold 14px/20px Helvetica, Sans-Serif;
   letter-spacing: -1px;
-  background: rgb(0, 0, 0); /* fallback color */
+  background: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.6);
   padding: 3px;
 
 h2 span.spacer
-  padding:0 5px;
+  padding 0 5px

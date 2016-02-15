@@ -1,76 +1,62 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background-image: -webkit-linear-gradient(190deg, #2376ae 0%, #c16ecf 100%);
+  background-image: linear-gradient(260deg, #2376ae 0%, #c16ecf 100%);
+}
 .app {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-flow: column;
-      -ms-flex-flow: column;
-          flex-flow: column;
+  width: 800px;
+  margin: 0 auto;
+  padding: 50px;
+}
+img {
+  max-width: 100%;
 }
 .heroes {
   position: relative;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
+}
+/* flex container*/
+.list-of-heroes2 ul {
+  margin: 0;
+  padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
-.list-of-heroes2 {
-  border: 10px solid #00f;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-.selected-opponents {
-  border: 10px solid #000;
-  margin: 10px;
-}
-.opponents {
-  position: relative;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  margin: 10px;
-  border: 1px solid #f00;
+.list-of-heroes2 li {
+  list-style: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0px 0px;
 }
 .Attacker {
-  -webkit-box-flex: 5;
-  -webkit-flex-grow: 5;
-      -ms-flex-positive: 5;
-          flex-grow: 5;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   border: 2px solid #800080;
 }
 .Defense {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   border: 2px solid #008000;
 }
 .Tank {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   border: 2px solid #add8e6;
 }
 .Support {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   border: 2px solid #99f;
+}
+.opponents {
+  list-style: none;
+  position: relative;
+  margin: 0px;
+  border: 1px solid #f00;
 }
 h2 {
   position: absolute;
@@ -82,7 +68,7 @@ h2 span {
   color: #fff;
   font: bold 14px/20px Helvetica, Sans-Serif;
   letter-spacing: -1px;
-  background: #000; /* fallback color */
+  background: #000;
   background: rgba(0,0,0,0.6);
   padding: 3px;
 }
