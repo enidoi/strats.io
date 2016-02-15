@@ -5,31 +5,32 @@ body {
   background-image: linear-gradient(260deg, #2376ae 0%, #c16ecf 100%);
 }
 .app {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 800px;
   margin: 0 auto;
   padding: 50px;
-}
-img {
-  max-width: 100%;
 }
 .heroes {
   position: relative;
 }
+.opponents {
+  position: relative;
+  margin: 0px;
+  border: 1px solid #f00;
+}
 /* flex container*/
-.list-of-heroes2 ul {
+ul.list-of-heroes2 {
+  list-style: none;
   margin: 0;
   padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
 }
-.list-of-heroes2 li {
-  list-style: none;
+/* flex items */
+li.list-of-heroes2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -52,11 +53,18 @@ img {
 .Support {
   border: 2px solid #99f;
 }
-.opponents {
+ul.order {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   list-style: none;
-  position: relative;
+}
+li.order {
+  display: block;
   margin: 0px;
-  border: 1px solid #f00;
 }
 h2 {
   position: absolute;

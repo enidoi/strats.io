@@ -4,32 +4,33 @@ body
   background-image: linear-gradient(260deg, #2376ae 0%, #c16ecf 100%);
 
 .app
-  display flex
-  width 800px
   margin: 0 auto;
   padding:50px;
 
-img
-  max-width 100%
 
 .heroes
   position relative
 
+.opponents
+  position relative
+  margin 0px
+  border 1px solid red
+
 /* flex container*/
-.list-of-heroes2 ul
+ul.list-of-heroes2
+  list-style none
   margin 0
   padding 0
   display flex
+  flex-wrap wrap
 
 
-
-
-
-.list-of-heroes2 li
-  list-style none
+/* flex items */
+li.list-of-heroes2
   display flex
   align-items center
   padding 0px 0px
+
 
 
 
@@ -48,11 +49,17 @@ img
 .Support
   border 2px solid lightness(blue, 80%)
 
-.opponents
+ul.order
+  margin 0
+  padding 0
+  display flex
   list-style none
-  position relative
+
+li.order
+  display block
   margin 0px
-  border 1px solid red
+
+
 
 h2
   position: absolute;
