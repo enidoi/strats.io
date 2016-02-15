@@ -26,6 +26,7 @@ var App = React.createClass(
   {
     getInitialState: function () {
       return {
+        hero1: {},
         selectedHeros: [null, null, null, null, null, null],
         showResults: true
       }
@@ -60,6 +61,7 @@ var App = React.createClass(
         return this.setState({ showResults: false })
       }
     },
+
     filledOpponents: function (key) {
       // Doesnt Work!
       // if (this.state.selectedHeros.length === 5) {
@@ -70,9 +72,11 @@ var App = React.createClass(
         return this.setState({ showResults: false })
       }
     },
+
     renderHero: function (key) {
       return (
       <div key={key}>
+
           <Hero
             key={key}
             index={key}
@@ -82,11 +86,14 @@ var App = React.createClass(
             filledOpponents={this.filledOpponents}
             heroes={heroes}
              />
+
       </div>
       )
     },
+
     removeOpponent: function (key) {
       var index = this.state.selectedHeros[key].index
+      console.log(index)
 
       if (index > -1) {
         this.setState({ showResults: true })
@@ -105,11 +112,14 @@ var App = React.createClass(
             heroes={heroes}
             removeOpponent={this.removeOpponent}
             filledOpponents={this.filledOpponents}
-            nullHeros={nullHeros} />
+            nullHeros={nullHeros}
+            loadHeroes={this.loadHeroes} />
         </div>
         <div className="list-of-heroes">
           <ToggleDisplay show={this.state.showResults}>
+            <ul className="list-of-heroes2">
               {Object.keys(heroes).map(this.renderHero)}
+            </ul>
           </ToggleDisplay>
         </div>
       </div>
@@ -132,11 +142,14 @@ var Hero = React.createClass(
       var details = this.props.details
 
       return (
-        <div className={details.name + ' ' + details.type + ' ' + 'heroes'} onClick={this.onButtonClick}>
+        <div>
+      <li className={details.name + ' ' + details.type + ' ' + 'heroes'} onClick={this.onButtonClick}>
         <h2><span>
           {details.name}
         </span></h2>
         <img src={details.largeImg} />
+      </li>
+
       </div>
       )
     }

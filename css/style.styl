@@ -1,32 +1,20 @@
 .app
+  display flex
+  flex-flow column
 
 
 
 .heroes
   position relative
+  flex-direction row
+  display flex
 
-.heroes strong
-  display block
-  font-size 130%
-  flex 1
-
-
-
-.list-of-heroes
+.list-of-heroes2
   border 10px solid blue
-  display inline-flex
-  flex-direction column
-  position relative
-
-.Genji
-  order 2
-
-.McCree
-  order 1
+  flex-direction row
 
 .selected-opponents
   border 10px solid black
-  display inline-flex
   margin 10px
 
 .opponents
@@ -37,14 +25,14 @@
 
 
 .Attacker
+  flex-grow 5
+  display inline-flex
   border 2px solid purple
-  background-color: #9BC850;
 
 
 .Defense
   display inline-flex
   border 2px solid green
-
 
 .Tank
   display inline-flex
@@ -70,6 +58,3 @@ h2 span
 
 h2 span.spacer
   padding:0 5px;
-
-li
-  display inline-flex
