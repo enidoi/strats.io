@@ -75,8 +75,6 @@ var App = React.createClass(
 
     renderHero: function (key) {
       return (
-      <div key={key}>
-
           <Hero
             key={key}
             index={key}
@@ -86,8 +84,6 @@ var App = React.createClass(
             filledOpponents={this.filledOpponents}
             heroes={heroes}
              />
-
-      </div>
       )
     },
 
