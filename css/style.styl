@@ -4,6 +4,7 @@ html
   background-image: linear-gradient(260deg, #2376ae 0%, #c16ecf 100%);
 
 .app
+  width 960px
   margin: 0 auto;
   padding:50px;
 
@@ -20,7 +21,7 @@ html
   position relative
   margin 0px
   flex 1 0 15%
-  border 1px solid red
+  /*border 1px solid red*/
 
 /* flex container*/
 ul.list-of-heroes2
@@ -33,38 +34,44 @@ ul.list-of-heroes2
 
 
 /* flex items */
-/*li.list-of-heroes2
-  display flex
-  align-items center
-  padding 0px 0px*/
-
-
-
-
-
-
 .Attacker
   flex 1 0 15%
   order 1
-  border 2px solid purple
+  /*border 2px solid purple*/
 
 
 .Defense
   flex 1 0 15%
   order 2
-  border 2px solid green
+  /*border 2px solid green*/
 
 .Tank
   flex 1 0 18%
-  border 2px solid lightblue
+  /*border 2px solid lightblue*/
   order 3
 
 .Support
   flex 1 0 20%
-  border 2px solid lightness(blue, 80%)
+  /*border 2px solid lightness(blue, 80%)*/
   order 4
 
+button
+  position absolute
+  opacity 0
+  right 0 px
+  height 100%
+  width 100%
 
+
+button:hover
+  position absolute
+  color #fff
+  font-size 40px
+  right 0px
+  height 100%
+  width 100%
+  background: rgba(0, 0, 0, 0.6)
+  opacity 1
 
 h2
   position: absolute;

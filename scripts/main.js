@@ -8,11 +8,13 @@ var createBrowserHistory = require('history/lib/createBrowserHistory')
 var History = ReactRouter.History
 var ToggleDisplay = require('react-toggle-display')
 var nullHeros = require('./nullHeros')
-var heroes = require('./herodata');
+var heroes = require('./herodata')
 var h = require('./helpers')
 // firebase
 var Rebase = require('re-base')
 var base = Rebase.createClass('https://strats-io.firebaseio.com/')
+//icons
+var FaTrash = require('react-icons/lib/fa/trash')
 
 /*
 Initial State - Heroes with data, selectedOppponents empty object.
@@ -155,7 +157,7 @@ var OpponentSection = React.createClass(
       var nullHeros = this.props.nullHeros
       var selectedHeros = this.props.selectedHeros
       var removeButton = <button onClick={this.props.removeOpponent.bind(null, key)}>
-                           &times;
+                           <FaTrash />
                          </button>
 
       if (selectedHeros[key] === null) {
