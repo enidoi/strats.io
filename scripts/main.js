@@ -144,7 +144,7 @@ var Hero = React.createClass(
         <div><h2><span>
           {details.name}
         </span></h2>
-        <img src={details.largeImg} /></div>
+        <img className="heroimg" src={details.largeImg} /></div>
       </li>
       )
     }
